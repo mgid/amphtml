@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html ⚡ lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>AMP TCF API test page</title>
+    <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
+    <script async custom-element="amp-consent" src="https://cdn.ampproject.org/v0/amp-consent-0.1.js"></script>
+    <script async custom-element="amp-geo" src="https://cdn.ampproject.org/v0/amp-geo-0.1.js"></script>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <link rel="canonical" href="https://tcf-api-test.dt07.net/amp/index.html">
+    <meta name="viewport" content="width=device-width">
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+    <style amp-custom>
+        #postPromptUI button {
+            background: #368bd6;
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            border-radius: 3px 0 0 3px;
+            max-height: 30px;
+            max-width: 110px;
+            cursor: pointer;
+        }
+        .quantcast-disclaimer {
+            display: none;
+        }
+        .amp-geo-group-usca .quantcast-disclaimer {
+            display: block;
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- QUANTCAST CMP -->
+<amp-geo layout="nodisplay">
+    <script type="application/json">
+        {
+            "ISOCountryGroups": {
+                "usca": [
+                    "preset-us-ca"
+                ]
+            }
+        }
+    </script>
+</amp-geo>
+<amp-consent id="quantcast" layout="nodisplay">
+    <script type="application/json">
+        {
+            "consentInstanceId": "quantcast",
+            "checkConsentHref": "https://apis.quantcast.mgr.consensu.org/amp/check-consent",
+            "consentRequired": "remote",
+            "promptUISrc": "https://quantcast.mgr.consensu.org/tcfv2/amp.html",
+            "postPromptUI": "postPromptUI",
+            "geoOverride": {
+                "usca": {
+                    "consentRequired": "remote",
+                    "promptUISrc": "https://quantcast.mgr.consensu.org/tcfv2/amp.html?usp",
+                    "postPromptUI": null
+                }
+            },
+            "clientConfig": {
+                "premiumProperties": {
+                    "googleWhitelist": [
+                        1
+                    ]
+                },
+                "coreUiLabels": {},
+                "premiumUiLabels": {},
+                "theme": {},
+                "coreConfig": {
+                    "lang_": "en",
+                    "displayUi": "always",
+                    "initScreenBodyTextOption": 1,
+                    "publisherConsentRestrictionIds": [],
+                    "publisherLIRestrictionIds": [],
+                    "publisherPurposeIds": [],
+                    "publisherPurposeLegitimateInterestIds": [],
+                    "publisherSpecialPurposesIds": [],
+                    "publisherFeaturesIds": [],
+                    "publisherSpecialFeaturesIds": [],
+                    "stacks": [
+                        1,
+                        42
+                    ],
+                    "vendorListUpdateFreq": 30,
+                    "quantcastAccountId": "v3X7uB7WZzVv4",
+                    "privacyMode": [
+                        "GDPR",
+                        "USP"
+                    ],
+                    "hashCode": "zMgB3+wAQvwKiQbyVKFhGw",
+                    "publisherCountryCode": "IT",
+                    "vendorPurposeIds": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                    ],
+                    "vendorFeaturesIds": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "vendorPurposeLegitimateInterestIds": [
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                    ],
+                    "vendorSpecialFeaturesIds": [
+                        1,
+                        2
+                    ],
+                    "vendorSpecialPurposesIds": [
+                        1,
+                        2
+                    ],
+                    "googleEnabled": false,
+                    "uspVersion": 1,
+                    "uspJurisdiction": [
+                        "CA"
+                    ],
+                    "uspLspact": "N"
+                }
+            }
+        }
+    </script>
+    <div id="postPromptUI">
+        <button role="button" on="tap:quantcast.prompt()">
+            <svg style="height:20px">
+                <g fill="none">
+                    <g fill="#FFF">
+                        <path
+                                d="M16 10L15 9C15 9 15 8 15 8L16 7C16 7 16 6 16 6 16 5 15 4 14 3 14 2 13 2 13 3L12 3C12 3 11 3 11 2L11 1C11 1 10 0 10 0 9 0 7 0 6 0 6 0 5 1 5 1L5 2C5 3 4 3 4 3L3 3C3 2 2 2 2 3 1 4 0 5 0 6 0 6 0 7 0 7L1 8C1 8 1 9 1 9L0 10C0 10 0 11 0 11 0 12 1 13 2 14 2 15 3 15 3 14L4 14C4 14 5 14 5 15L5 16C5 16 6 17 6 17 7 17 9 17 10 17 10 17 11 16 11 16L11 15C11 14 12 14 12 14L13 14C13 15 14 15 14 14 15 13 16 12 16 11 16 11 16 10 16 10ZM13 13L12 13C11 13 11 13 9 14L9 16C9 16 7 16 7 16L7 14C5 14 5 13 4 13L3 13C2 13 1 12 1 11L3 10C2 9 2 8 3 7L1 6C1 5 2 4 3 4L4 4C5 4 5 3 7 3L7 1C7 1 9 1 9 1L9 3C11 3 11 4 12 4L13 4C14 4 15 5 15 6L13 7C14 8 14 9 13 10L15 11C15 12 14 13 13 13ZM8 5C6 5 5 7 5 9 5 10 6 12 8 12 10 12 11 10 11 9 11 7 10 5 8 5ZM8 11C7 11 6 10 6 9 6 7 7 6 8 6 9 6 10 7 10 9 10 10 9 11 8 11Z" />
+                    </g>
+                </g>
+            </svg>
+            PRIVACY
+        </button>
+    </div>
+</amp-consent>
+<div class="quantcast-disclaimer">
+    <button role="button" on="tap:quantcast.prompt()">
+        <svg style="height:20px">
+            <g fill="none">
+                <g fill="#FFF">
+                    <path
+                            d="M16 10L15 9C15 9 15 8 15 8L16 7C16 7 16 6 16 6 16 5 15 4 14 3 14 2 13 2 13 3L12 3C12 3 11 3 11 2L11 1C11 1 10 0 10 0 9 0 7 0 6 0 6 0 5 1 5 1L5 2C5 3 4 3 4 3L3 3C3 2 2 2 2 3 1 4 0 5 0 6 0 6 0 7 0 7L1 8C1 8 1 9 1 9L0 10C0 10 0 11 0 11 0 12 1 13 2 14 2 15 3 15 3 14L4 14C4 14 5 14 5 15L5 16C5 16 6 17 6 17 7 17 9 17 10 17 10 17 11 16 11 16L11 15C11 14 12 14 12 14L13 14C13 15 14 15 14 14 15 13 16 12 16 11 16 11 16 10 16 10ZM13 13L12 13C11 13 11 13 9 14L9 16C9 16 7 16 7 16L7 14C5 14 5 13 4 13L3 13C2 13 1 12 1 11L3 10C2 9 2 8 3 7L1 6C1 5 2 4 3 4L4 4C5 4 5 3 7 3L7 1C7 1 9 1 9 1L9 3C11 3 11 4 12 4L13 4C14 4 15 5 15 6L13 7C14 8 14 9 13 10L15 11C15 12 14 13 13 13ZM8 5C6 5 5 7 5 9 5 10 6 12 8 12 10 12 11 10 11 9 11 7 10 5 8 5ZM8 11C7 11 6 10 6 9 6 7 7 6 8 6 9 6 10 7 10 9 10 10 9 11 8 11Z" />
+                </g>
+            </g>
+        </svg>
+        PRIVACY
+    </button>
+</div>
+<!--END QUANTCAST CMP -->
+
+
+<amp-embed width="600" height="600" layout="responsive" type="mgid" data-publisher="pas-test.com" data-widget="100337" data-container="M103889ScriptRootC100337" data-block-on-consent="_till_responded" > </amp-embed>
+
+</body>
+</html>

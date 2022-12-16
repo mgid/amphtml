@@ -2,9 +2,12 @@
 <html amp lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="amp-consent-blocking" content="amp-ad" />
   <script async src="https://cdn.ampproject.org/v0.js"></script>
   <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
   <script async custom-element="amp-story-auto-ads" src="https://cdn.ampproject.org/v0/amp-story-auto-ads-0.1.js"></script>
+  <script async custom-element="amp-geo" src="https://cdn.ampproject.org/v0/amp-geo-0.1.js"></script>
+  <script async custom-element="amp-consent" src="https://cdn.ampproject.org/v0/amp-consent-0.1.js"></script>
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <link rel="canonical" href="mgid.html">
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
@@ -29,6 +32,239 @@
 
 <body>
 <amp-story standalone supports-landscape>
+  <amp-geo layout="nodisplay">
+    <script type="application/json">
+      {
+        "ISOCountryGroups": {
+          "usca": [
+            "preset-us-ca"
+          ]
+        }
+      }
+    </script>
+  </amp-geo>
+  <amp-consent id="quantcast" layout="nodisplay">
+    <script type="application/json">
+      {
+        "consentInstanceId": "quantcast",
+        "checkConsentHref": "https://apis.quantcast.mgr.consensu.org/amp/check-consent",
+        "consentRequired": "remote",
+        "promptUI": "consentUI",
+        "geoOverride": {
+          "usca": {
+            "consentRequired": "remote",
+            "promptUISrc": "https://quantcast.mgr.consensu.org/tcfv2/amp.html?usp",
+            "postPromptUI": null
+          }
+        },
+        "clientConfig": {
+          "premiumProperties": {
+            "googleWhitelist": [
+              1
+            ]
+          },
+          "coreUiLabels": {},
+          "premiumUiLabels": {},
+          "theme": {},
+          "coreConfig": {
+            "lang_": "en",
+            "displayUi": "always",
+            "initScreenBodyTextOption": 1,
+            "publisherConsentRestrictionIds": [],
+            "publisherLIRestrictionIds": [],
+            "publisherPurposeIds": [],
+            "publisherPurposeLegitimateInterestIds": [],
+            "publisherSpecialPurposesIds": [],
+            "publisherFeaturesIds": [],
+            "publisherSpecialFeaturesIds": [],
+            "stacks": [
+              1,
+              42
+            ],
+            "vendorListUpdateFreq": 30,
+            "quantcastAccountId": "v3X7uB7WZzVv4",
+            "privacyMode": [
+              "GDPR",
+              "USP"
+            ],
+            "hashCode": "zMgB3+wAQvwKiQbyVKFhGw",
+            "publisherCountryCode": "IT",
+            "vendorPurposeIds": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "vendorFeaturesIds": [
+              1,
+              2,
+              3
+            ],
+            "vendorPurposeLegitimateInterestIds": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "vendorSpecialFeaturesIds": [
+              1,
+              2
+            ],
+            "vendorSpecialPurposesIds": [
+              1,
+              2
+            ],
+            "googleEnabled": false,
+            "uspVersion": 1,
+            "uspJurisdiction": [
+              "CA"
+            ],
+            "uspLspact": "N"
+          }
+        }
+      }
+    </script>
+    <amp-story-consent id="consentUI" layout="nodisplay">
+      <script type="application/json">
+        {
+          "title": "Headline",
+          "message": "This is some more information about this choice. Here's a list of items related to this choice.",
+          "vendors": [
+            "Item 1"
+          ]
+        }
+      </script>
+    </amp-story-consent>
+  </amp-consent>
+
+  <amp-geo layout="nodisplay">
+    <script type="application/json">
+      {
+        "ISOCountryGroups": {
+          "usca": [
+            "preset-us-ca"
+          ]
+        }
+      }
+    </script>
+  </amp-geo>
+  <!--<amp-consent id="myConsent" layout="nodisplay">
+
+    <script type="application/json">
+      {
+        "consentInstanceId": "myConsent",
+        "checkConsentHref": "http://localhost:8000/check-consent?consentRequired=true&consentString=test_consent_string&consentMetadata=%7B%22consentStringType%22%3A2%2C%22gdprApplies%22%3Atrue%7D",
+        "promptUI": "consentUI",
+        "consentRequired": "remote",
+        "geoOverride": {
+          "usca": {
+            "consentRequired": "remote",
+            "promptUISrc": "https://quantcast.mgr.consensu.org/tcfv2/amp.html?usp",
+            "postPromptUI": null
+          }
+        },
+        "clientConfig": {
+          "premiumProperties": {
+            "googleWhitelist": [
+              1
+            ]
+          },
+          "coreUiLabels": {},
+          "premiumUiLabels": {},
+          "theme": {},
+          "coreConfig": {
+            "lang_": "en",
+            "displayUi": "always",
+            "initScreenBodyTextOption": 1,
+            "publisherConsentRestrictionIds": [],
+            "publisherLIRestrictionIds": [],
+            "publisherPurposeIds": [],
+            "publisherPurposeLegitimateInterestIds": [],
+            "publisherSpecialPurposesIds": [],
+            "publisherFeaturesIds": [],
+            "publisherSpecialFeaturesIds": [],
+            "stacks": [
+              1,
+              42
+            ],
+            "vendorListUpdateFreq": 30,
+            "quantcastAccountId": "v3X7uB7WZzVv4",
+            "privacyMode": [
+              "GDPR",
+              "USP"
+            ],
+            "hashCode": "zMgB3+wAQvwKiQbyVKFhGw",
+            "publisherCountryCode": "IT",
+            "vendorPurposeIds": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "vendorFeaturesIds": [
+              1,
+              2,
+              3
+            ],
+            "vendorPurposeLegitimateInterestIds": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "vendorSpecialFeaturesIds": [
+              1,
+              2
+            ],
+            "vendorSpecialPurposesIds": [
+              1,
+              2
+            ],
+            "googleEnabled": false,
+            "uspVersion": 1,
+            "uspJurisdiction": [
+              "CA"
+            ],
+            "uspLspact": "N"
+          }
+        }
+      }
+    </script>
+    <amp-story-consent id="consentUI" layout="nodisplay">
+      <script type="application/json">
+        {
+          "title": "Headline",
+          "message": "This is some more information about this choice. Here's a list of items related to this choice.",
+          "vendors": [
+            "Item 1"
+          ]
+        }
+      </script>
+    </amp-story-consent>
+  </amp-consent>-->
+
   <amp-story-auto-ads>
     <script type="application/json">
       {
