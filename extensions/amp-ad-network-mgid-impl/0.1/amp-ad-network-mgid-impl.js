@@ -8,7 +8,6 @@ import {Services} from '#service';
 
 import {user} from '#utils/log';
 
-import {insertAnalyticsElement} from '../../../src/extension-analytics';
 import {AmpA4A} from '../../amp-a4a/0.1/amp-a4a';
 
 /** @const {string} */
@@ -16,7 +15,6 @@ const TAG = 'amp-ad-network-mgid-impl';
 
 const BASE_URL_ = 'https://servicer.mgid.com/';
 const PV_URL_ = 'https://c.mgid.com/';
-const CAPPING_URL_ = 'https://c.mgid.com/';
 
 export class AmpAdNetworkMgidImpl extends AmpA4A {
   /**
@@ -30,12 +28,7 @@ export class AmpAdNetworkMgidImpl extends AmpA4A {
 
     /** @private */
     this.mgidMetadata_ = {
-      'h': '',
       'muidn': '',
-      'h2': '',
-      'rid': '',
-      'tt': '',
-      'ts': '',
       'pvid': '',
     };
   }
@@ -76,7 +69,7 @@ export class AmpAdNetworkMgidImpl extends AmpA4A {
     adUrlParams = adUrlParams.concat(this.getNetworkInfoParams_());
     adUrlParams.push(this.getCacheBusterParam_());
     adUrlParams.push(this.getDevicePixelRatioParam_());
-    adUrlParams.push(this.getRefParam_());
+    adUrlParams.push(this.getCxurlParam_());
     adUrlParams.push(this.getPrParam_());
     adUrlParams.push(this.getLuParam_());
     adUrlParams.push(this.getSessionIdParam_());
@@ -93,57 +86,20 @@ export class AmpAdNetworkMgidImpl extends AmpA4A {
       servicerUrl += joinedParams;
       pvUrl += joinedParams;
 
-      this.getAmpDoc()
-        .getBody()
-        .appendChild(
-          createElementWithAttributes(this.win.document, 'amp-pixel', {
-            'src': pvUrl,
-          })
-        );
+      if (typeof this.win['_mgAmpStoryPV'] == 'undefined') {
+        this.getAmpDoc()
+          .getBody()
+          .appendChild(
+            createElementWithAttributes(this.win.document, 'amp-pixel', {
+              'src': pvUrl,
+            })
+          );
+
+        this.win['_mgAmpStoryPV'] = 1;
+      }
 
       return servicerUrl;
     });
-  }
-
-  /** @override */
-  onCreativeRender(creativeMetaData, opt_onLoadPromise) {
-    super.onCreativeRender(creativeMetaData);
-
-    const config = {
-      'transport': {'beacon': false, 'xhrpost': false, 'image': true},
-      'requests': {
-        'base': CAPPING_URL_ + 'c',
-      },
-      'triggers': {
-        'storyAdView': {
-          'on': 'story-ad-view',
-          'request': 'base',
-          'extraUrlParams': {
-            'f': 1,
-            'cid': this.element.getAttribute('data-widget'),
-            'h2': this.mgidMetadata_.h2,
-            'rid': this.mgidMetadata_.rid,
-            'tt': this.mgidMetadata_.tt,
-            'ts': this.mgidMetadata_.ts,
-            'iv': 13,
-            'pageImp': 1,
-            'pvid': this.mgidMetadata_.pvid,
-            'muid': this.mgidMetadata_.muidn,
-            'cbuster':
-              Date.now().toString() +
-              Math.floor(Math.random() * 1000000000 + 1),
-            'v': '412|915|0|' + this.mgidMetadata_.h,
-          },
-        },
-      },
-    };
-
-    this.ampAnalyticsElement_ = insertAnalyticsElement(
-      this.element,
-      config,
-      /*loadAnalytics*/ true,
-      false
-    );
   }
 
   /** @override */
@@ -161,6 +117,7 @@ export class AmpAdNetworkMgidImpl extends AmpA4A {
         const meta = root.querySelector('#mgid_metadata');
         if (meta) {
           this.mgidMetadata_ = JSON.parse(meta./*OK*/ innerHTML);
+          this.mgidMetadata_.muidn = this.mgidMetadata_.muidn.trim();
           if (this.mgidMetadata_.muidn != '') {
             localStorage.mgMuidn = this.mgidMetadata_.muidn;
           }
@@ -307,16 +264,6 @@ export class AmpAdNetworkMgidImpl extends AmpA4A {
   }
 
   /**
-   * @return {string} Referrer info for ad request
-   * @private
-   */
-  getRefParam_() {
-    return this.getReferrer_(10).then((referrer) => {
-      return 'ref=' + encodeURIComponent(referrer);
-    });
-  }
-
-  /**
    * @return {string} Primary referrer info for ad request
    * @private
    */
@@ -348,6 +295,15 @@ export class AmpAdNetworkMgidImpl extends AmpA4A {
   }
 
   /**
+   * @return {string} Current page url for ad request
+   * @private
+   */
+  getCxurlParam_() {
+    const url = Services.documentInfoForDoc(this.element).canonicalUrl;
+    return 'cxurl=' + encodeURIComponent(url);
+  }
+
+  /**
    * @return {string} Session id info for ad request
    * @private
    */
@@ -369,10 +325,12 @@ export class AmpAdNetworkMgidImpl extends AmpA4A {
    * @private
    */
   getPvidParam_() {
-    Services.documentInfoForDoc(this.element).pageViewId64.then((pvid) => {
-      this.mgidMetadata_.pvid = pvid;
-      return 'pvid=' + pvid;
-    });
+    return Services.documentInfoForDoc(this.element).pageViewId64.then(
+      (pvid) => {
+        this.mgidMetadata_.pvid = pvid;
+        return 'pvid=' + pvid;
+      }
+    );
   }
 
   /**

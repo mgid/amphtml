@@ -1,7 +1,5 @@
 import {Services} from '#service';
-import {
-  AmpAdNetworkDoubleclickImpl
-} from '../../../amp-ad-network-doubleclick-impl/0.1/amp-ad-network-doubleclick-impl';
+
 import {AmpAd} from '../../../amp-ad/0.1/amp-ad'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {AmpAdNetworkMgidImpl} from '../amp-ad-network-mgid-impl';
 
@@ -76,9 +74,9 @@ describes.realWin(
         .stub(viewer, 'getReferrerUrl')
         .returns(Promise.resolve('http://fake.example/?foo=bar'));
 
-      sessionStorage.MG_Session_pr = 'http://stored-pr.example/?foo=bar';
-      sessionStorage.MG_Session_lu = 'http://stored-lu.example/?abc=xyz';
-      sessionStorage.MG_Session_Id = 'stored-session';
+      sessionStorage['MG_Session_pr'] = 'http://stored-pr.example/?foo=bar';
+      sessionStorage['MG_Session_lu'] = 'http://stored-lu.example/?abc=xyz';
+      sessionStorage['MG_Session_Id'] = 'stored-session';
       localStorage.mgMuidn = 'qwerty123456';
 
       const mgidImpl = new AmpAdNetworkMgidImpl(mgidImplElem);
@@ -100,6 +98,29 @@ describes.realWin(
           expect(url).to.match(regexp);
         });
       });
+    });
+
+    it('test sendXhrRequest', async () => {
+      env.win.fetch = env.fetchMock.realFetch;
+      const creative = `
+      <!doctype html>
+      <html ⚡4ads>
+      <head></head>
+      <body>
+        <script id="mgid_metadata" type=application/json>
+          {"muidn": "muidn123456"}
+        </script>
+      </body>
+      </html>
+      `;
+
+      env.fetchMock.mock('begin:https://fake.local', creative);
+
+      mgidImplElem.setAttribute('data-widget', '100');
+
+      const mgidImpl = new AmpAdNetworkMgidImpl(mgidImplElem);
+      await mgidImpl.sendXhrRequest('https://fake.local');
+      expect(mgidImpl.mgidMetadata_.muidn).to.equal('muidn123456');
     });
   }
 );
